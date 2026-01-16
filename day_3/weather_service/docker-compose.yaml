@@ -1,0 +1,14 @@
+services:
+  test:
+    build: .
+    command: uv run pytest -v
+
+  test-cov:
+    build: .
+    command: uv run pytest --cov=app --cov-report=term-missing
+
+  app:
+    build: .
+    command: uv run uvicorn app.main:app --host 0.0.0.0 --reload
+    ports:
+      - "8000:8000"
