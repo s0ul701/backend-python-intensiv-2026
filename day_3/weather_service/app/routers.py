@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.schemas import WeatherResponse, ConvertResponse, HealthResponse
+from app.schemas import ConvertResponse, HealthResponse, WeatherResponse
 from app.services import fetch_weather_from_api
 from app.utils import celsius_to_fahrenheit, get_weather_description
 

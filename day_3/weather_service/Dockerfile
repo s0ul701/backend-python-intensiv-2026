@@ -11,4 +11,4 @@ COPY . .
 
 RUN uv sync --extra dev
 
-CMD ["uv", "run", "pytest", "-v"]
+ENTRYPOINT ["uv", "run"]

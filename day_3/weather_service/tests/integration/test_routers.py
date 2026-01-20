@@ -1,7 +1,6 @@
-import pytest
-from unittest.mock import patch, AsyncMock
-from fastapi import HTTPException
+from unittest.mock import AsyncMock, patch
 
+from fastapi import HTTPException
 
 # ===== /health =====
 
@@ -83,3 +82,36 @@ async def test_weather_city_not_found(async_client):
 
         assert response.status_code == 404
         assert "not found" in response.json()["detail"]
+
+
+# ===== /weather/{city} с monkeypatch =====
+
+async def test_weather_success_monkeypatch(async_client, mock_weather_data, monkeypatch):
+    """Успешное получение погоды с использованием monkeypatch."""
+
+    async def mock_fetch(city: str) -> dict:
+        return mock_weather_data
+
+    monkeypatch.setattr("app.routers.fetch_weather_from_api", mock_fetch)
+
+    response = await async_client.get("/weather/Paris")
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["city"] == "Paris"
+    assert data["temperature"] == 22.5
+    assert data["description"] == "warm"
+
+
+async def test_weather_city_not_found_monkeypatch(async_client, monkeypatch):
+    """Город не найден с использованием monkeypatch."""
+
+    async def mock_fetch(city: str) -> dict:
+        raise HTTPException(status_code=404, detail=f"City '{city}' not found")
+
+    monkeypatch.setattr("app.routers.fetch_weather_from_api", mock_fetch)
+
+    response = await async_client.get("/weather/unknown")
+
+    assert response.status_code == 404
+    assert "not found" in response.json()["detail"]

@@ -1,5 +1,5 @@
-import pytest
 import httpx
+import pytest
 from httpx import ASGITransport
 
 from app.main import app
@@ -13,7 +13,7 @@ async def async_client():
         yield client
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def mock_weather_data():
     """Мок ответа от внешнего API."""
     return {
