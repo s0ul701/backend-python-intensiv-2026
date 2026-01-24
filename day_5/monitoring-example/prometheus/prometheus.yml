@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - prometheus:9090
+  - job_name: grafana
+    static_configs:
+      - targets:
+          - grafana:3000
+  - job_name: app-system-metrics
+    metrics_path: "/metrics"
+    params:
+      type: ["system"]
+    static_configs:
+      - targets:
+          - app:8080
+  - job_name: app-analytic-metrics
+    metrics_path: "/metrics"
+    params:
+      type: ["analytic"]
+    static_configs:
+      - targets:
+          - app:8080
