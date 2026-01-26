@@ -8,7 +8,7 @@ def get_option_by_name(first_name: str, last_name: str) -> str:
     1) "document check service"
     2) "antifraud service"
     3) "scoring service"
-    ""
+    """
     full_name = (first_name + last_name).strip().lower().replace(" ", "")
     hash_bytes = hashlib.md5(full_name.encode()).digest()
     hash_number = int.from_bytes(hash_bytes, byteorder='big')
