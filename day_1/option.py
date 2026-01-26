@@ -12,7 +12,7 @@ def get_option_by_name(first_name: str, last_name: str) -> str:
     """
     full_name = (first_name + last_name).strip().lower().replace(" ", "")
     hash_bytes = hashlib.md5(full_name.encode()).digest()
-    hash_number = int.from_bytes(hash_bytes, byteorder='big')
+    hash_number = int.from_bytes(hash_bytes, byteorder="big")
     
     option = hash_number % 3
   
@@ -26,11 +26,11 @@ def get_option_by_name(first_name: str, last_name: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Выбор сервиса на основе имени и фамилии',
-        epilog='Пример: uv run script.py --name Иван --surname Иванов'
+        description="Выбор сервиса на основе имени и фамилии",
+        epilog="Пример: uv run script.py --name Иван --surname Иванов"
     )
-    parser.add_argument('-n', '--name', required=True, help='Имя пользователя')
-    parser.add_argument('-s', '--surname', required=True, help='Фамилия пользователя')
+    parser.add_argument("-n", "--name", required=True, help="Имя пользователя")
+    parser.add_argument("-s", "--surname", required=True, help="Фамилия пользователя")
     args = parser.parse_args()   
     result = get_option_by_name(args.name, args.surname)
     print(f"Вариант задания: {result}")
