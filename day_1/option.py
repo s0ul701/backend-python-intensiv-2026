@@ -1,3 +1,4 @@
+import argparse
 import hashlib
 
 def get_option_by_name(first_name: str, last_name: str) -> str:
@@ -22,3 +23,17 @@ def get_option_by_name(first_name: str, last_name: str) -> str:
     }
     
     return services[option]
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Выбор сервиса на основе имени и фамилии',
+        epilog='Пример: uv run script.py --name Иван --surname Иванов'
+    )
+    parser.add_argument('-n', '--name', required=True, help='Имя пользователя')
+    parser.add_argument('-s', '--surname', required=True, help='Фамилия пользователя')
+    args = parser.parse_args()   
+    result = get_option_by_name(args.name, args.surname)
+    print(f"Вариант задания: {result}")
+
+if __name__ == "__main__":
+    main()
