@@ -1,6 +1,15 @@
-FROM python:3.14.2
+FROM python:3.14.2-slim
+
 WORKDIR /app
-COPY requirements.txt requirements.txt
+
+ENV UV_LINK_MODE=copy
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+COPY pyproject.toml uv.lock* ./
+
+RUN uv sync
+
 COPY main.py main.py
-RUN pip install -r requirements.txt
+
 ENTRYPOINT ["fastapi", "run", "/app/main.py", "--port", "8080"]
